@@ -311,7 +311,7 @@ tr:hover td{background:#fafafe}
       <div>
         <div class="lbl" id="eTotalMode">Total otomatis dari rincian barang</div>
         <div style="margin-top:4px;display:none" id="eManualWrap">
-          <input type="text" inputmode="numeric" id="eManual" placeholder="Isi total manual (Rp)" style="padding:6px 9px;border:1px solid #ddd;border-radius:7px;font-size:13px" oninput="eRecalc()">
+          <input type="text" inputmode="numeric" id="eManual" placeholder="Isi total manual (Rp)" style="padding:6px 9px;border:1px solid #ddd;border-radius:7px;font-size:13px" oninput="fmtRp(this);eRecalc()">
         </div>
       </div>
       <div class="val" id="eTotal">Rp 0</div>
@@ -339,7 +339,8 @@ tr:hover td{background:#fafafe}
     </div>
     <div class="card-title" style="margin-bottom:6px">Riwayat pembayaran</div>
     <div class="pay-hist" id="pmHist"></div>
-    <div class="card-title" style="margin-bottom:6px">Tambah pembayaran / cicilan</div>
+    <div class="hint" style="margin:-6px 0 10px">Salah catat? Klik ✏️ untuk mengubah atau ✕ untuk menghapus pembayaran di atas.</div>
+    <div class="card-title" style="margin-bottom:6px" id="pmFormTitle">Tambah pembayaran / cicilan</div>
     <div class="pay-form">
       <div class="field"><label>Tanggal</label>
         <div class="tgl-row">
@@ -350,12 +351,13 @@ tr:hover td{background:#fafafe}
           <input type="number" id="pmThn" min="2020" max="2100" style="width:60px">
         </div>
       </div>
-      <div class="field"><label>Jumlah (Rp)</label><input type="text" inputmode="numeric" id="pmAmt" placeholder="0"></div>
+      <div class="field"><label>Jumlah (Rp)</label><input type="text" inputmode="numeric" id="pmAmt" placeholder="0" oninput="fmtRp(this)"></div>
       <div class="field"><label>Catatan</label><input type="text" id="pmNote" placeholder="transfer / tunai..."></div>
       <button class="btn btn-g" onclick="addPayment()" id="pmAddBtn">＋ Catat</button>
     </div>
-    <div style="margin-top:8px">
+    <div style="margin-top:8px;display:flex;gap:8px">
       <button class="btn btn-line btn-sm" onclick="fillSisa()">Isi jumlah = sisa (pelunasan)</button>
+      <button class="btn btn-line btn-sm" id="pmCancelEdit" style="display:none;color:#c0392b" onclick="cancelEditPay()">Batal ubah</button>
     </div>
     <div class="err-msg" id="pmErr"></div>
     <div class="modal-close-row">
@@ -391,6 +393,12 @@ const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
 const isoToDisp = iso => { if(!iso) return ''; const p = String(iso).split('-'); return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : iso; };
 const dispToIso = d => { const p = String(d||'').trim().split('/'); return p.length===3 ? p[2]+'-'+pad2(parseInt(p[1])||1)+'-'+pad2(parseInt(p[0])||1) : ''; };
 function showMsg(id, txt, ms=3000){ const el=$(id); el.textContent=txt; el.style.display='block'; if(ms) setTimeout(()=>el.style.display='none', ms); }
+// Format otomatis pakai titik ribuan saat mengetik: 50000000 -> 50.000.000
+window.fmtRp = function(el){
+  const digits = String(el.value).replace(/\D/g,'');
+  el.value = digits ? parseInt(digits, 10).toLocaleString('id-ID') : '';
+};
+const rpStr = v => v > 0 ? Math.round(v).toLocaleString('id-ID') : '';
 
 // ===================== STATE =====================
 let auth=null, db=null, unsub=null;
@@ -398,6 +406,7 @@ let allTrx = [];
 let curTab = 'dash';
 let trxTab = 'piutang';   // tab transaksi terakhir (piutang/hutang)
 let payDocId = null;
+let pmEditIdx = null;   // index pembayaran yang sedang diubah (null = tambah baru)
 let importParsed = [];
 let editDocId = null;     // null = tambah baru
 let eItemRows = [];       // rincian barang di modal edit
@@ -610,7 +619,7 @@ window.openEdit = function(id){
     $('ePihak').value = t.pihak||''; $('eKota').value = t.kota||'';
     $('eNota').value = t.noNota||''; $('eKet').value = t.ket||'';
     (t.items||[]).forEach(it => eItemRows.push({id:++eItemCounter, nama:it.nama||'', qty:it.qty??'', sat:it.sat||'kg', harga:it.harga??''}));
-    $('eManual').value = eItemRows.length ? '' : Math.round(t.jumlah||0);
+    $('eManual').value = eItemRows.length ? '' : rpStr(t.jumlah||0);
   } else {
     $('emTitle').textContent = '➕ Tambah ' + (isP?'Piutang':'Hutang') + ' Baru';
     $('emSub').textContent = 'Isi rincian barang — total dihitung otomatis. Kalau tidak perlu rincian, kosongkan barang dan isi total manual.';
@@ -634,7 +643,7 @@ function eRenderItems(){
     <td><input list="prodList" id="eiNama_${r.id}" value="${esc(r.nama)}" oninput="eOnItem(${i},'nama',this.value)" placeholder="Nama barang"></td>
     <td><input class="n" inputmode="decimal" id="eiQty_${r.id}" value="${r.qty}" oninput="eOnItem(${i},'qty',this.value)" placeholder="0"></td>
     <td><input id="eiSat_${r.id}" value="${esc(r.sat)}" oninput="eOnItem(${i},'sat',this.value)"></td>
-    <td><input class="n" inputmode="numeric" id="eiHrg_${r.id}" value="${r.harga}" oninput="eOnItem(${i},'harga',this.value)" placeholder="0"></td>
+    <td><input class="n" inputmode="numeric" id="eiHrg_${r.id}" value="${rpStr(parseRp(r.harga))}" oninput="fmtRp(this);eOnItem(${i},'harga',this.value)" placeholder="0"></td>
     <td class="item-sub" id="eiSub_${r.id}">-</td>
     <td><button class="icon-btn danger" onclick="eDelItem(${i})" style="margin:0">✕</button></td>
   </tr>`).join('');
@@ -821,6 +830,7 @@ window.doImport = async function(){
 // ===================== PEMBAYARAN =====================
 window.openPay = function(id){
   payDocId = id;
+  cancelEditPay(true);
   const now = new Date();
   $('pmTgl').value = now.getDate(); $('pmBln').value = now.getMonth()+1; $('pmThn').value = now.getFullYear();
   $('pmAmt').value=''; $('pmNote').value='';
@@ -828,6 +838,35 @@ window.openPay = function(id){
   refreshPayModal();
   $('payModal').classList.add('show');
 };
+
+window.editPayment = function(i){
+  const t = allTrx.find(x=>x.id===payDocId); if(!t) return;
+  const p = (t.pembayaran||[])[i]; if(!p) return;
+  pmEditIdx = i;
+  const d = String(p.tanggal||'').split('-');
+  $('pmThn').value = d[0]||''; $('pmBln').value = d[1]?parseInt(d[1]):''; $('pmTgl').value = d[2]?parseInt(d[2]):'';
+  $('pmAmt').value = rpStr(p.jumlah||0);
+  $('pmNote').value = p.catatan||'';
+  $('pmAddBtn').textContent = '💾 Simpan';
+  $('pmCancelEdit').style.display = 'inline-block';
+  $('pmFormTitle').textContent = 'Ubah pembayaran #' + (i+1);
+  refreshPayModal();
+  $('pmAmt').focus();
+};
+
+function cancelEditPay(silent){
+  pmEditIdx = null;
+  $('pmAddBtn').textContent = '＋ Catat';
+  $('pmCancelEdit').style.display = 'none';
+  $('pmFormTitle').textContent = 'Tambah pembayaran / cicilan';
+  if(!silent){
+    $('pmAmt').value=''; $('pmNote').value='';
+    const now = new Date();
+    $('pmTgl').value = now.getDate(); $('pmBln').value = now.getMonth()+1; $('pmThn').value = now.getFullYear();
+    refreshPayModal();
+  }
+}
+window.cancelEditPay = cancelEditPay;
 
 function refreshPayModal(){
   const t = allTrx.find(x=>x.id===payDocId);
@@ -841,10 +880,11 @@ function refreshPayModal(){
   $('pmSisa').className = s>0.5 ? 'red':'green';
   const hist = (t.pembayaran||[]);
   $('pmHist').innerHTML = hist.length
-    ? hist.map((p,i)=>`<div class="pay-row">
+    ? hist.map((p,i)=>`<div class="pay-row" style="${pmEditIdx===i?'background:#fdf6ec':''}">
         <span class="d">${isoToDisp(p.tanggal)}</span>
         <span class="a">${IDR(p.jumlah)}</span>
         <span class="c">${esc(p.catatan||'')}</span>
+        <button class="icon-btn" onclick="editPayment(${i})" title="Ubah pembayaran ini">✏️</button>
         <button class="icon-btn danger" onclick="delPayment(${i})" title="Hapus pembayaran ini">✕</button>
       </div>`).join('')
     : `<div class="pay-row" style="color:#bbb">Belum ada pembayaran.</div>`;
@@ -852,7 +892,7 @@ function refreshPayModal(){
 
 window.fillSisa = function(){
   const t = allTrx.find(x=>x.id===payDocId); if(!t) return;
-  $('pmAmt').value = Math.max(0, Math.round(sisaOf(t)));
+  $('pmAmt').value = rpStr(Math.max(0, sisaOf(t)));
 };
 
 window.addPayment = async function(){
@@ -862,13 +902,21 @@ window.addPayment = async function(){
   const amt = parseRp($('pmAmt').value);
   if(!d||!m||!y){ showMsg('pmErr','Tanggal pembayaran belum lengkap.'); return; }
   if(amt <= 0){ showMsg('pmErr','Jumlah pembayaran harus lebih dari 0.'); return; }
-  const sisa = sisaOf(t);
+  const isEdit = pmEditIdx !== null;
+  const oldAmt = isEdit ? (parseFloat((t.pembayaran||[])[pmEditIdx]?.jumlah)||0) : 0;
+  const sisa = sisaOf(t) + oldAmt; // saat ubah, jumlah lama dianggap dikembalikan dulu
   if(amt > sisa + 0.5 && !confirm(`Jumlah (${IDR(amt)}) lebih besar dari sisa (${IDR(sisa)}). Tetap catat?`)) return;
   const btn = $('pmAddBtn'); btn.disabled = true;
   try {
-    const pembayaran = [...(t.pembayaran||[]), { tanggal:`${y}-${pad2(m)}-${pad2(d)}`, jumlah: amt, catatan: $('pmNote').value.trim() }];
+    const entry = { tanggal:`${y}-${pad2(m)}-${pad2(d)}`, jumlah: amt, catatan: $('pmNote').value.trim() };
+    let pembayaran;
+    if(isEdit){
+      pembayaran = (t.pembayaran||[]).map((p,x)=> x===pmEditIdx ? entry : p);
+    } else {
+      pembayaran = [...(t.pembayaran||[]), entry];
+    }
     await updateDoc(doc(db,'transaksi', t.id), { pembayaran });
-    $('pmAmt').value=''; $('pmNote').value='';
+    cancelEditPay();
   } catch(e){ showMsg('pmErr','Gagal: '+e.message, 6000); }
   btn.disabled = false;
 };
@@ -878,7 +926,10 @@ window.delPayment = async function(i){
   const p = (t.pembayaran||[])[i]; if(!p) return;
   if(!confirm(`Hapus pembayaran ${IDR(p.jumlah)} tanggal ${isoToDisp(p.tanggal)}?`)) return;
   const pembayaran = (t.pembayaran||[]).filter((_,x)=>x!==i);
-  try { await updateDoc(doc(db,'transaksi', t.id), { pembayaran }); }
+  try {
+    await updateDoc(doc(db,'transaksi', t.id), { pembayaran });
+    if(pmEditIdx !== null) cancelEditPay();
+  }
   catch(e){ showMsg('pmErr','Gagal: '+e.message, 6000); }
 };
 
