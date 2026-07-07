@@ -56,6 +56,12 @@ textarea.mono{min-height:90px;resize:vertical}
 .chip.green .val{color:#1e7a45}
 .chip.red .val{color:#c0392b}
 /* FILTER */
+.flt-btns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.flt-btn{padding:7px 14px;border:1px solid #ddd;border-radius:20px;background:#fafafa;color:#777;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:6px}
+.flt-btn:hover{background:#f0f0ee}
+.flt-btn.active{background:#1a1a1a;color:#fff;border-color:#1a1a1a}
+.flt-btn .cnt{background:rgba(0,0,0,.08);padding:1px 8px;border-radius:20px;font-size:11px}
+.flt-btn.active .cnt{background:rgba(255,255,255,.25)}
 .filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
 .filter-row input[type=text]{flex:1;min-width:160px;padding:7px 10px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fafafa}
 .filter-row select{padding:7px 10px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fafafa}
@@ -236,13 +242,13 @@ tr:hover td{background:#fafafe}
   <!-- LIST -->
   <div class="card">
     <div class="card-title" id="listTitle">📄 Daftar</div>
+    <div class="flt-btns" id="fltBtns">
+      <button class="flt-btn active" data-f="open" onclick="setFilter('open')">🔴 Belum lunas <span class="cnt" id="cntOpen">0</span></button>
+      <button class="flt-btn" data-f="lunas" onclick="setFilter('lunas')">✅ Lunas <span class="cnt" id="cntLunas">0</span></button>
+      <button class="flt-btn" data-f="all" onclick="setFilter('all')">📚 Semua <span class="cnt" id="cntAll">0</span></button>
+    </div>
     <div class="filter-row">
       <input type="text" id="fltCari" placeholder="Cari nama / no nota / barang..." oninput="renderList()">
-      <select id="fltStatus" onchange="renderList()">
-        <option value="open">Belum lunas</option>
-        <option value="all">Semua</option>
-        <option value="lunas">Lunas saja</option>
-      </select>
       <button class="btn btn-line btn-sm" onclick="copyList()">📋 Copy ke Google Sheet</button>
     </div>
     <div class="tbl-wrap">
@@ -564,18 +570,30 @@ function renderDash(){
     : `<div class="empty">Belum ada pembayaran tercatat.</div>`;
 }
 
+let fltStatus = 'open';  // open | lunas | all
+
+window.setFilter = function(f){
+  fltStatus = f;
+  document.querySelectorAll('.flt-btn').forEach(b => b.classList.toggle('active', b.dataset.f === f));
+  renderList();
+};
+
 function renderList(){
   const cari = $('fltCari').value.trim().toLowerCase();
-  const flt = $('fltStatus').value;
   const tbody = $('listBody');
-  let list = trxOfTab();
+  const base = trxOfTab();
+  // hitung jumlah per status (sebelum filter pencarian)
+  $('cntOpen').textContent = base.filter(t=>statusOf(t)!=='lunas').length;
+  $('cntLunas').textContent = base.filter(t=>statusOf(t)==='lunas').length;
+  $('cntAll').textContent = base.length;
+  let list = base;
   if(cari) list = list.filter(t =>
     (t.pihak||'').toLowerCase().includes(cari) ||
     (t.noNota||'').toLowerCase().includes(cari) ||
     itemNames(t).toLowerCase().includes(cari));
-  if(flt==='open') list = list.filter(t=>statusOf(t)!=='lunas');
-  if(flt==='lunas') list = list.filter(t=>statusOf(t)==='lunas');
-  if(!list.length){ tbody.innerHTML = `<tr><td colspan="9" class="empty">Tidak ada data.</td></tr>`; return; }
+  if(fltStatus==='open') list = list.filter(t=>statusOf(t)!=='lunas');
+  if(fltStatus==='lunas') list = list.filter(t=>statusOf(t)==='lunas');
+  if(!list.length){ tbody.innerHTML = `<tr><td colspan="9" class="empty">Tidak ada data${fltStatus==='open'?' — coba klik tombol "✅ Lunas" atau "📚 Semua" di atas':''}.</td></tr>`; return; }
   tbody.innerHTML = list.map(t => {
     const b = bayarTotal(t), s = sisaOf(t), st = statusOf(t);
     const stHtml = st==='lunas' ? '<span class="st st-lunas">LUNAS</span>'
@@ -946,11 +964,10 @@ window.delTrx = async function(id){
 // ===================== COPY LIST TSV =====================
 window.copyList = function(){
   const cari = $('fltCari').value.trim().toLowerCase();
-  const flt = $('fltStatus').value;
   let list = trxOfTab();
   if(cari) list = list.filter(t => (t.pihak||'').toLowerCase().includes(cari) || (t.noNota||'').toLowerCase().includes(cari) || itemNames(t).toLowerCase().includes(cari));
-  if(flt==='open') list = list.filter(t=>statusOf(t)!=='lunas');
-  if(flt==='lunas') list = list.filter(t=>statusOf(t)==='lunas');
+  if(fltStatus==='open') list = list.filter(t=>statusOf(t)!=='lunas');
+  if(fltStatus==='lunas') list = list.filter(t=>statusOf(t)==='lunas');
   if(!list.length){ alert('Tidak ada data untuk dicopy.'); return; }
   const who = trxTab==='piutang' ? 'Pelanggan':'Supplier';
   const header = ['Tanggal',who,'Kota','No.Nota','Barang','Jumlah','Dibayar','Sisa','Status','Keterangan'].join('\t');
