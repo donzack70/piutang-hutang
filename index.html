@@ -8,7 +8,6 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:14px;background:#f5f5f3;color:#1a1a1a;min-height:100vh}
 .topbar{background:#fff;border-bottom:1px solid #e5e5e3;padding:11px 20px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.topbar h1{font-size:15px;font-weight:600}
 .topbar .sub{font-size:11px;color:#999}
 .badge{font-size:11px;padding:2px 10px;border-radius:20px;font-weight:600}
 .badge-on{background:#eef6f0;color:#1e7a45}
@@ -20,6 +19,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .field label{font-size:11px;color:#888;display:block;margin-bottom:3px;font-weight:500}
 .field input,.field select,.field textarea{width:100%;padding:7px 9px;border:1px solid #ddd;border-radius:7px;font-size:13px;background:#fafafa;font-family:inherit}
 .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#b7600a;background:#fff}
+.field input[readonly]{background:#f0f0ee;color:#666}
 .btn{padding:8px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
 .btn:disabled{opacity:.45;cursor:not-allowed}
 .btn-p{background:#b7600a;color:#fff}.btn-p:hover:not(:disabled){background:#9c520a}
@@ -29,43 +29,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 .btn-sm{padding:5px 10px;font-size:12px;border-radius:7px}
 .ok-msg{background:#f0faf4;border:1px solid #b2dfc5;border-radius:8px;padding:8px 12px;font-size:12px;color:#2d8a4e;margin-top:8px;display:none}
 .err-msg{background:#fdf5f5;border:1px solid #f5c6c6;border-radius:8px;padding:8px 12px;font-size:12px;color:#c0392b;margin-top:8px;display:none}
-.info-msg{background:#fdf6ec;border:1px solid #e6b566;border-radius:8px;padding:8px 12px;font-size:12px;color:#b7600a;margin-top:8px}
 .hint{font-size:11px;color:#aaa;margin-top:5px}
-.hint a{color:#1a6fb5}
 .spinner{width:13px;height:13px;border:2px solid #ddd;border-top-color:#555;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;vertical-align:-2px}
 @keyframes spin{to{transform:rotate(360deg)}}
-/* SETUP */
-.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:800px){.setup-grid{grid-template-columns:1fr}}
 .mono{font-family:Consolas,Menlo,monospace;font-size:12px}
-textarea.mono{min-height:110px;resize:vertical}
-details.rules{margin-top:10px}
-details.rules summary{font-size:12px;color:#1a6fb5;cursor:pointer;user-select:none}
-details.rules pre{background:#f7f7f5;border:1px solid #e8e8e6;border-radius:8px;padding:10px;font-size:11px;margin-top:6px;overflow-x:auto;line-height:1.5}
-.step{display:flex;gap:8px;font-size:12px;color:#555;margin-bottom:6px;line-height:1.5}
-.step b.n{flex-shrink:0;width:18px;height:18px;border-radius:50%;background:#f0f0ee;color:#888;font-size:11px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+textarea.mono{min-height:90px;resize:vertical}
+/* LOGIN GATE */
+.gate{max-width:460px;margin:50px auto}
+.gate .logo{text-align:center;font-size:34px;margin-bottom:6px}
+.gate h2{text-align:center;font-size:17px;margin-bottom:2px}
+.gate .gsub{text-align:center;font-size:12px;color:#999;margin-bottom:18px}
 /* TABS */
 .tabbar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
 .tab-btn{padding:9px 22px;border:1px solid #ddd;border-radius:10px;background:#ececea;color:#888;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
 .tab-btn:hover{background:#f3f3f1}
+.tab-btn.act-d{background:#eef6f0;color:#1e7a45;border-color:#a8d5ba;box-shadow:0 1px 4px rgba(30,122,69,.12)}
 .tab-btn.act-p{background:#fdf6ec;color:#b7600a;border-color:#e6b566;box-shadow:0 1px 4px rgba(183,96,10,.12)}
 .tab-btn.act-h{background:#eef0fa;color:#4a5fc1;border-color:#b6bfe8;box-shadow:0 1px 4px rgba(74,95,193,.12)}
-.tab-btn.act-r{background:#eef6f0;color:#1e7a45;border-color:#a8d5ba;box-shadow:0 1px 4px rgba(30,122,69,.12)}
-/* SUMMARY CHIPS */
+/* CHIPS */
 .chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.chip{flex:1;min-width:160px;background:#fff;border:1px solid #e8e8e6;border-radius:12px;padding:12px 16px}
+.chip{flex:1;min-width:170px;background:#fff;border:1px solid #e8e8e6;border-radius:12px;padding:12px 16px}
 .chip .lbl{font-size:11px;color:#888;margin-bottom:3px}
 .chip .val{font-size:19px;font-weight:700}
 .chip.warn .val{color:#b7600a}
 .chip.blue .val{color:#4a5fc1}
 .chip.green .val{color:#1e7a45}
-/* FORM ROW */
-.form-grid{display:grid;grid-template-columns:150px 1.4fr 1fr 1fr 1fr;gap:8px;align-items:end}
-.form-grid2{display:grid;grid-template-columns:2fr 1fr auto;gap:8px;align-items:end;margin-top:8px}
-@media(max-width:900px){.form-grid,.form-grid2{grid-template-columns:1fr 1fr}}
-.tgl-row{display:flex;align-items:center;gap:4px}
-.tgl-row input{text-align:center;padding:7px 4px}
-.tgl-row .sep{color:#bbb}
+.chip.red .val{color:#c0392b}
 /* FILTER */
 .filter-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
 .filter-row input[type=text]{flex:1;min-width:160px;padding:7px 10px;border:1px solid #ddd;border-radius:8px;font-size:13px;background:#fafafa}
@@ -85,23 +74,24 @@ tr:hover td{background:#fafafe}
 .st-lunas{background:#f0faf4;color:#2d8a4e;border:1px solid #b2dfc5}
 .pihak-cell{font-weight:600}
 .pihak-cell .kota{font-weight:400;font-size:11px;color:#aaa}
-.ket-td{font-size:11px;color:#999;max-width:160px}
+.brg-cell{font-size:11px;color:#888;max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .act-td{white-space:nowrap}
 .icon-btn{background:none;border:1px solid #e0e0de;cursor:pointer;padding:4px 9px;border-radius:6px;font-size:12px;color:#555;margin-left:4px}
 .icon-btn:hover{background:#f7f7f5}
 .icon-btn.danger:hover{color:#c0392b;border-color:#f0c5c5;background:#fdf5f5}
 .empty{text-align:center;color:#bbb;padding:26px 0;font-size:13px}
 /* IMPORT PREVIEW */
-.prev-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid #eee;border-radius:8px;margin-bottom:6px;font-size:12.5px;background:#fafafa}
+.prev-item{display:flex;align-items:center;gap:10px;padding:7px 10px;border:1px solid #eee;border-radius:8px;margin-bottom:6px;font-size:12.5px;background:#fafafa;flex-wrap:wrap}
 .prev-item input{width:15px;height:15px;flex-shrink:0}
-.prev-item .who{font-weight:600;flex:1}
+.prev-item .who{font-weight:600;flex:1;min-width:120px}
 .prev-item .amt{font-weight:700;white-space:nowrap}
 .prev-item.dup{opacity:.55}
 .prev-item .dup-tag{font-size:10px;color:#c0392b;background:#fdf5f5;border:1px solid #f0c5c5;padding:1px 7px;border-radius:20px}
 /* MODAL */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:40px 14px;overflow-y:auto}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:30px 14px;overflow-y:auto}
 .modal.show{display:flex}
-.modal-box{background:#fff;border-radius:14px;padding:18px 20px;width:100%;max-width:540px;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.modal-box{background:#fff;border-radius:14px;padding:18px 20px;width:100%;max-width:560px;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.modal-box.wide{max-width:760px}
 .modal-box h3{font-size:15px;margin-bottom:2px}
 .modal-box .sub{font-size:12px;color:#999;margin-bottom:12px}
 .pay-hist{border:1px solid #eee;border-radius:9px;margin-bottom:12px;max-height:220px;overflow-y:auto}
@@ -110,16 +100,35 @@ tr:hover td{background:#fafafe}
 .pay-row .d{color:#888;width:80px;flex-shrink:0}
 .pay-row .a{font-weight:600;flex:1}
 .pay-row .c{color:#aaa;font-size:11px;flex:1.2}
-.pay-form{display:grid;grid-template-columns:130px 1fr 1fr auto;gap:8px;align-items:end}
+.pay-form{display:grid;grid-template-columns:140px 1fr 1fr auto;gap:8px;align-items:end}
 @media(max-width:600px){.pay-form{grid-template-columns:1fr 1fr}}
-.sisa-line{display:flex;justify-content:space-between;font-size:13px;padding:9px 12px;background:#fafaf8;border:1px solid #eee;border-radius:9px;margin-bottom:12px}
+.sisa-line{display:flex;justify-content:space-between;font-size:13px;padding:9px 12px;background:#fafaf8;border:1px solid #eee;border-radius:9px;margin-bottom:12px;gap:10px;flex-wrap:wrap}
 .sisa-line b.red{color:#c0392b}
 .sisa-line b.green{color:#2d8a4e}
 .modal-close-row{display:flex;justify-content:flex-end;gap:8px;margin-top:14px}
-/* REKAP */
-.rekap-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:800px){.rekap-grid{grid-template-columns:1fr}}
-.gate{max-width:520px;margin:30px auto}
+/* EDIT MODAL */
+.e-grid{display:grid;grid-template-columns:150px 1.5fr 1fr 1fr;gap:8px;margin-bottom:8px}
+@media(max-width:650px){.e-grid{grid-template-columns:1fr 1fr}}
+.tgl-row{display:flex;align-items:center;gap:4px}
+.tgl-row input{text-align:center;padding:7px 3px}
+.tgl-row .sep{color:#bbb}
+.item-tbl input{padding:5px 7px;border:1px solid #ddd;border-radius:6px;font-size:12px;background:#fafafa;width:100%}
+.item-tbl input:focus{outline:none;border-color:#b7600a;background:#fff}
+.item-tbl .n{text-align:right}
+.item-sub{font-weight:600;text-align:right;white-space:nowrap;font-size:12px}
+.add-row-btn{width:100%;padding:7px;border:1px dashed #ddd;border-radius:8px;background:none;font-size:12px;cursor:pointer;color:#888;margin-top:8px}
+.add-row-btn:hover{background:#f7f7f5;border-color:#bbb}
+.e-total{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:10px 12px;background:#fafaf8;border:1px solid #eee;border-radius:9px}
+.e-total .lbl{font-size:12px;color:#888}
+.e-total .val{font-size:17px;font-weight:700}
+/* DASHBOARD */
+.dash-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:850px){.dash-grid{grid-template-columns:1fr}}
+.recent-row{display:flex;align-items:center;gap:10px;padding:7px 4px;border-bottom:1px solid #f5f5f3;font-size:12.5px}
+.recent-row:last-child{border-bottom:none}
+.recent-row .tag{font-size:10px;padding:1px 8px;border-radius:20px;font-weight:600;flex-shrink:0}
+.tag-p{background:#fdf6ec;color:#b7600a}
+.tag-h{background:#eef0fa;color:#4a5fc1}
 </style>
 </head>
 <body>
@@ -129,115 +138,82 @@ tr:hover td{background:#fafafe}
     <div style="font-size:15px;font-weight:600">💳 Piutang & Hutang</div>
     <div class="sub">CV Warna Indah Chemical — Surabaya</div>
   </div>
-  <span class="badge badge-off" id="connBadge">⬤ Belum terhubung</span>
+  <span class="badge badge-off" id="connBadge">⬤ Menghubungkan...</span>
   <span id="userBox" style="display:none;font-size:12px;color:#666"></span>
   <button class="btn btn-line btn-sm" id="logoutBtn" style="display:none" onclick="doLogout()">Keluar</button>
 </div>
 
 <div class="main">
 
-<!-- ============ GATE: SETUP + LOGIN ============ -->
+<!-- ============ GATE: LOGIN ============ -->
 <div id="gate" class="gate">
-
+  <div class="logo">💳</div>
+  <h2>Piutang &amp; Hutang</h2>
+  <div class="gsub">CV Warna Indah Chemical</div>
   <div class="card">
-    <div class="card-title">🔥 1. Hubungkan Firebase</div>
-    <div class="field">
-      <label>Firebase Config (paste JSON / potongan kode dari console)</label>
-      <textarea id="fbConfig" class="mono" placeholder='{ "apiKey": "...", "authDomain": "...", "projectId": "...", ... }'></textarea>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
-      <button class="btn btn-g" onclick="connectFirebase()" id="connBtn">🔌 Hubungkan</button>
-      <span class="hint" style="margin-top:0">Config disimpan di browser ini — cukup isi sekali.</span>
-    </div>
-    <div class="err-msg" id="fbErr"></div>
-
-    <details class="rules">
-      <summary>Belum punya project Firebase? Klik untuk panduan setup (sekali saja)</summary>
-      <div style="margin-top:8px">
-        <div class="step"><b class="n">1</b><span>Buka <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → <b>Add project</b> (nama bebas, mis. <i>warna-indah</i>). Google Analytics boleh dimatikan.</span></div>
-        <div class="step"><b class="n">2</b><span>Di menu kiri: <b>Build → Firestore Database → Create database</b>. Pilih lokasi <i>asia-southeast2 (Jakarta)</i>, mode <b>production</b>.</span></div>
-        <div class="step"><b class="n">3</b><span>Masih di Firestore, tab <b>Rules</b> — ganti isinya dengan aturan di bawah lalu <b>Publish</b> (hanya user yang login yang bisa baca/tulis):</span></div>
-        <pre>rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if request.auth != null;
-    }
-  }
-}</pre>
-        <div class="step"><b class="n">4</b><span><b>Build → Authentication → Get started → Email/Password → Enable</b>. Lalu di tab <b>Users → Add user</b>, buat email &amp; password untuk toko.</span></div>
-        <div class="step"><b class="n">5</b><span>Klik ikon ⚙ <b>Project settings</b> → scroll ke <b>Your apps</b> → pilih ikon web <b>&lt;/&gt;</b> → daftarkan app (nama bebas) → copy bagian <span class="mono">firebaseConfig = { ... }</span> dan paste di kotak di atas.</span></div>
-      </div>
-    </details>
-  </div>
-
-  <div class="card" id="loginCard" style="opacity:.45;pointer-events:none">
-    <div class="card-title">🔐 2. Masuk</div>
-    <div class="setup-grid">
-      <div class="field"><label>Email</label><input type="email" id="authEmail" placeholder="email@toko.com"></div>
-      <div class="field"><label>Password</label><input type="password" id="authPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button class="btn btn-p" onclick="doLogin()" id="loginBtn">Masuk</button>
-      <button class="btn btn-line" onclick="doRegister()" title="Hanya untuk pertama kali">Daftar akun baru</button>
+    <div class="field" style="margin-bottom:8px"><label>Email</label><input type="email" id="authEmail" placeholder="email@toko.com"></div>
+    <div class="field"><label>Password</label><input type="password" id="authPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button class="btn btn-p" style="flex:1" onclick="doLogin()" id="loginBtn">Masuk</button>
     </div>
     <div class="err-msg" id="authErr"></div>
-    <div class="hint">Akun bisa juga dibuat lewat Firebase Console → Authentication → Users.</div>
+    <div class="hint">Akun dibuat lewat Firebase Console → Authentication → Users.</div>
   </div>
-
 </div>
 
 <!-- ============ APP ============ -->
 <div id="app" style="display:none">
 
 <div class="tabbar">
-  <button class="tab-btn act-p" id="tbP" onclick="setTab('piutang')">💳 Piutang (pelanggan)</button>
+  <button class="tab-btn act-d" id="tbD" onclick="setTab('dash')">📊 Dashboard</button>
+  <button class="tab-btn" id="tbP" onclick="setTab('piutang')">💳 Piutang (pelanggan)</button>
   <button class="tab-btn" id="tbH" onclick="setTab('hutang')">📦 Hutang (supplier)</button>
-  <button class="tab-btn" id="tbR" onclick="setTab('rekap')">📊 Rekap</button>
 </div>
 
-<!-- CHIPS -->
 <div class="chips" id="chips"></div>
 
-<!-- ====== TAB TRANSAKSI (piutang/hutang pakai UI sama) ====== -->
-<div id="tabTrx">
-
-  <!-- INPUT MANUAL -->
-  <div class="card">
-    <div class="card-title" id="formTitle">➕ Tambah Piutang Manual</div>
-    <div class="form-grid">
-      <div class="field"><label>Tanggal</label>
-        <div class="tgl-row">
-          <input type="number" id="fTgl" min="1" max="31" placeholder="DD" style="width:46px">
-          <span class="sep">/</span>
-          <input type="number" id="fBln" min="1" max="12" placeholder="MM" style="width:46px">
-          <span class="sep">/</span>
-          <input type="number" id="fThn" min="2020" max="2100" placeholder="YYYY" style="width:64px">
-        </div>
-      </div>
-      <div class="field"><label id="fPihakLbl">Nama pelanggan</label><input type="text" id="fPihak" list="pihakList" placeholder="Nama toko / pembeli"></div>
-      <div class="field"><label>Kota</label><input type="text" id="fKota" placeholder="Kota"></div>
-      <div class="field"><label>No. nota</label><input type="text" id="fNota" placeholder="001/VI/2026"></div>
-      <div class="field"><label>Jumlah (Rp)</label><input type="text" inputmode="numeric" id="fJumlah" placeholder="cth: 1500000"></div>
+<!-- ====== TAB DASHBOARD ====== -->
+<div id="tabDash" style="display:none">
+  <div class="dash-grid">
+    <div class="card">
+      <div class="card-title" style="color:#b7600a">💳 Piutang per Pelanggan (belum lunas)</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Nama</th><th class="r">Nota</th><th class="r">Total Sisa</th></tr></thead>
+        <tbody id="rekapP"></tbody>
+      </table></div>
     </div>
-    <div class="form-grid2">
-      <div class="field"><label>Keterangan (opsional)</label><input type="text" id="fKet" placeholder="Catatan tambahan"></div>
-      <div class="field"><label>Uang muka / DP (opsional, Rp)</label><input type="text" inputmode="numeric" id="fDp" placeholder="0"></div>
-      <button class="btn btn-p" id="fSaveBtn" onclick="saveManual()">💾 Simpan</button>
+    <div class="card">
+      <div class="card-title" style="color:#4a5fc1">📦 Hutang per Supplier (belum lunas)</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Nama</th><th class="r">Nota</th><th class="r">Total Sisa</th></tr></thead>
+        <tbody id="rekapH"></tbody>
+      </table></div>
     </div>
-    <div class="ok-msg" id="fOk"></div>
-    <div class="err-msg" id="fErr"></div>
+    <div class="card">
+      <div class="card-title">⏰ Piutang Paling Lama (belum lunas)</div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th style="width:80px">Tanggal</th><th>Nama</th><th class="r">Sisa</th></tr></thead>
+        <tbody id="oldestP"></tbody>
+      </table></div>
+    </div>
+    <div class="card">
+      <div class="card-title">💰 Pembayaran Terakhir</div>
+      <div id="recentPay"></div>
+    </div>
   </div>
-  <datalist id="pihakList"></datalist>
+</div>
+
+<!-- ====== TAB TRANSAKSI ====== -->
+<div id="tabTrx" style="display:none">
 
   <!-- IMPORT TSV -->
   <div class="card">
-    <div class="card-title">📋 Import dari App Nota <span class="spacer"></span>
+    <div class="card-title">📋 Cara 1 — Import dari App Nota <span class="spacer"></span>
       <button class="btn btn-line btn-sm" onclick="toggleImport()" id="impToggle">Buka</button>
     </div>
     <div id="impBody" style="display:none">
       <div class="hint" style="margin:0 0 6px" id="impHint"></div>
-      <div class="field"><textarea id="impTsv" class="mono" placeholder="Paste hasil 'Copy ke Google Sheet' di sini (termasuk baris judul)..." style="min-height:90px"></textarea></div>
+      <div class="field"><textarea id="impTsv" class="mono" placeholder="Paste hasil 'Copy ke Google Sheet' di sini (termasuk baris judul)..."></textarea></div>
       <div style="display:flex;gap:8px;margin-top:8px;align-items:center;flex-wrap:wrap">
         <button class="btn btn-line" onclick="parseImport()">🔍 Baca data</button>
         <label id="impPiutangOnlyWrap" style="font-size:12px;color:#666;display:flex;align-items:center;gap:6px;cursor:pointer">
@@ -249,11 +225,19 @@ service cloud.firestore {
     </div>
   </div>
 
+  <!-- MANUAL -->
+  <div class="card">
+    <div class="card-title">✏️ Cara 2 — Input / Edit Manual <span class="spacer"></span>
+      <button class="btn btn-sm" id="btnNew" onclick="openEdit(null)">➕ Tambah baru</button>
+    </div>
+    <div class="hint" style="margin:0">Klik "➕ Tambah baru" untuk input manual dengan rincian barang, atau klik ✏️ di daftar bawah untuk mengubah nota yang sudah ada. Total dihitung otomatis dari rincian barang supaya tidak salah hitung.</div>
+  </div>
+
   <!-- LIST -->
   <div class="card">
-    <div class="card-title" id="listTitle">📄 Daftar Piutang</div>
+    <div class="card-title" id="listTitle">📄 Daftar</div>
     <div class="filter-row">
-      <input type="text" id="fltCari" placeholder="Cari nama / no nota..." oninput="renderList()">
+      <input type="text" id="fltCari" placeholder="Cari nama / no nota / barang..." oninput="renderList()">
       <select id="fltStatus" onchange="renderList()">
         <option value="open">Belum lunas</option>
         <option value="all">Semua</option>
@@ -266,13 +250,13 @@ service cloud.firestore {
         <thead><tr>
           <th style="width:80px">Tanggal</th>
           <th>Nama</th>
-          <th style="width:105px">No. Nota</th>
-          <th class="r" style="width:110px">Jumlah</th>
-          <th class="r" style="width:105px">Dibayar</th>
-          <th class="r" style="width:110px">Sisa</th>
-          <th style="width:85px">Status</th>
-          <th class="ket-td">Ket</th>
-          <th style="width:150px"></th>
+          <th style="width:100px">No. Nota</th>
+          <th>Barang</th>
+          <th class="r" style="width:105px">Jumlah</th>
+          <th class="r" style="width:100px">Dibayar</th>
+          <th class="r" style="width:105px">Sisa</th>
+          <th style="width:80px">Status</th>
+          <th style="width:185px"></th>
         </tr></thead>
         <tbody id="listBody"></tbody>
       </table>
@@ -282,28 +266,66 @@ service cloud.firestore {
 
 </div>
 
-<!-- ====== TAB REKAP ====== -->
-<div id="tabRekap" style="display:none">
-  <div class="rekap-grid">
-    <div class="card">
-      <div class="card-title" style="color:#b7600a">💳 Piutang per Pelanggan</div>
-      <div class="tbl-wrap"><table>
-        <thead><tr><th>Nama</th><th class="r">Nota</th><th class="r">Total Sisa</th></tr></thead>
-        <tbody id="rekapP"></tbody>
-      </table></div>
+</div><!-- /app -->
+</div><!-- /main -->
+
+<!-- ============ MODAL EDIT / TAMBAH ============ -->
+<div class="modal" id="editModal">
+  <div class="modal-box wide" onclick="event.stopPropagation()">
+    <h3 id="emTitle">Tambah</h3>
+    <div class="sub" id="emSub"></div>
+    <div class="e-grid">
+      <div class="field"><label>Tanggal</label>
+        <div class="tgl-row">
+          <input type="number" id="eTgl" min="1" max="31" placeholder="DD" style="width:44px">
+          <span class="sep">/</span>
+          <input type="number" id="eBln" min="1" max="12" placeholder="MM" style="width:44px">
+          <span class="sep">/</span>
+          <input type="number" id="eThn" min="2020" max="2100" placeholder="YYYY" style="width:62px">
+        </div>
+      </div>
+      <div class="field"><label id="ePihakLbl">Nama</label><input type="text" id="ePihak" list="pihakList" placeholder="Nama"></div>
+      <div class="field"><label>Kota</label><input type="text" id="eKota" placeholder="Kota"></div>
+      <div class="field"><label>No. nota</label><input type="text" id="eNota" placeholder="001/VI/2026"></div>
     </div>
-    <div class="card">
-      <div class="card-title" style="color:#4a5fc1">📦 Hutang per Supplier</div>
-      <div class="tbl-wrap"><table>
-        <thead><tr><th>Nama</th><th class="r">Nota</th><th class="r">Total Sisa</th></tr></thead>
-        <tbody id="rekapH"></tbody>
-      </table></div>
+    <div class="field" style="margin-bottom:10px"><label>Keterangan (opsional)</label><input type="text" id="eKet" placeholder="Catatan tambahan"></div>
+
+    <div class="card-title" style="margin-bottom:6px">🧾 Rincian Barang</div>
+    <div class="tbl-wrap">
+      <table class="item-tbl">
+        <thead><tr>
+          <th style="width:22px">#</th>
+          <th style="min-width:180px">Nama Barang</th>
+          <th style="width:75px">Qty</th>
+          <th style="width:58px">Sat</th>
+          <th style="width:110px">Harga (Rp)</th>
+          <th style="width:110px" class="r">Subtotal</th>
+          <th style="width:30px"></th>
+        </tr></thead>
+        <tbody id="eItems"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="eAddItem()">+ Tambah barang</button>
+
+    <div class="e-total">
+      <div>
+        <div class="lbl" id="eTotalMode">Total otomatis dari rincian barang</div>
+        <div style="margin-top:4px;display:none" id="eManualWrap">
+          <input type="text" inputmode="numeric" id="eManual" placeholder="Isi total manual (Rp)" style="padding:6px 9px;border:1px solid #ddd;border-radius:7px;font-size:13px" oninput="eRecalc()">
+        </div>
+      </div>
+      <div class="val" id="eTotal">Rp 0</div>
+    </div>
+
+    <div class="err-msg" id="eErr"></div>
+    <div class="modal-close-row">
+      <button class="btn btn-line" onclick="closeEdit()">Batal</button>
+      <button class="btn btn-g" onclick="saveEdit()" id="eSaveBtn">💾 Simpan</button>
     </div>
   </div>
 </div>
-
-</div><!-- /app -->
-</div><!-- /main -->
+<datalist id="pihakList"></datalist>
+<datalist id="prodList"></datalist>
 
 <!-- ============ MODAL PEMBAYARAN ============ -->
 <div class="modal" id="payModal" onclick="closePay()">
@@ -344,80 +366,71 @@ service cloud.firestore {
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut }
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// ===================== FIREBASE CONFIG (sudah ditanam) =====================
+const firebaseConfig = {
+  apiKey: "AIzaSyCx2bGvF9Szh7-q4PPiZxvGwPPxjc4Kt30",
+  authDomain: "warna-indah.firebaseapp.com",
+  projectId: "warna-indah",
+  storageBucket: "warna-indah.firebasestorage.app",
+  messagingSenderId: "888220688334",
+  appId: "1:888220688334:web:89fcbcf1d375448c8a159f"
+};
 
 // ===================== HELPERS =====================
 const $ = id => document.getElementById(id);
 const IDR = v => 'Rp ' + Math.round(v).toLocaleString('id-ID');
 const parseRp = v => parseFloat(String(v ?? '').replace(/\./g,'').replace(',','.').replace(/[^0-9.]/g,'')) || 0;
+const parseQty = v => parseFloat(String(v ?? '').replace(',','.')) || 0;
 const pad2 = n => String(n).padStart(2,'0');
 const esc = s => String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-// tanggal disimpan ISO "YYYY-MM-DD", ditampilkan "DD/MM/YYYY"
-const isoToDisp = iso => { if(!iso) return ''; const p = iso.split('-'); return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : iso; };
+const isoToDisp = iso => { if(!iso) return ''; const p = String(iso).split('-'); return p.length===3 ? p[2]+'/'+p[1]+'/'+p[0] : iso; };
 const dispToIso = d => { const p = String(d||'').trim().split('/'); return p.length===3 ? p[2]+'-'+pad2(parseInt(p[1])||1)+'-'+pad2(parseInt(p[0])||1) : ''; };
 function showMsg(id, txt, ms=3000){ const el=$(id); el.textContent=txt; el.style.display='block'; if(ms) setTimeout(()=>el.style.display='none', ms); }
 
 // ===================== STATE =====================
-let fbApp=null, auth=null, db=null, unsub=null;
-let allTrx = [];          // semua dokumen dari Firestore
-let curTab = 'piutang';   // 'piutang' | 'hutang' | 'rekap'
-let payDocId = null;      // dokumen yang sedang dibuka di modal
-let importParsed = [];    // hasil parse TSV
+let auth=null, db=null, unsub=null;
+let allTrx = [];
+let curTab = 'dash';
+let trxTab = 'piutang';   // tab transaksi terakhir (piutang/hutang)
+let payDocId = null;
+let importParsed = [];
+let editDocId = null;     // null = tambah baru
+let eItemRows = [];       // rincian barang di modal edit
+let eItemCounter = 0;
 
 const bayarTotal = t => (t.pembayaran||[]).reduce((s,p)=>s+(parseFloat(p.jumlah)||0),0);
 const sisaOf = t => (parseFloat(t.jumlah)||0) - bayarTotal(t);
 const statusOf = t => { const s = sisaOf(t); const b = bayarTotal(t); return s <= 0.5 ? 'lunas' : (b > 0 ? 'sebagian' : 'belum'); };
+const itemNames = t => (t.items||[]).map(i=>i.nama).filter(Boolean).join(', ');
 
-// ===================== FIREBASE CONNECT =====================
-function parseConfig(raw){
-  // Terima JSON murni ATAU potongan "const firebaseConfig = {...};"
-  const s = raw.indexOf('{'); const e = raw.lastIndexOf('}');
-  if(s < 0 || e < 0) throw new Error('Tidak menemukan { } di config');
-  let body = raw.substring(s, e+1);
-  try { return JSON.parse(body); } catch(_){}
-  // longgar: kutipkan key tanpa kutip, ganti kutip tunggal
-  body = body.replace(/'/g,'"').replace(/([{,]\s*)([A-Za-z0-9_]+)\s*:/g, '$1"$2":').replace(/,\s*}/g,'}');
-  return JSON.parse(body);
-}
+// ===================== FIREBASE INIT =====================
+const fbApp = initializeApp(firebaseConfig);
+auth = getAuth(fbApp);
+db = getFirestore(fbApp);
+$('connBadge').textContent = '⬤ Terhubung: ' + firebaseConfig.projectId;
+$('connBadge').className = 'badge badge-on';
 
-window.connectFirebase = function(){
-  const raw = $('fbConfig').value.trim();
-  $('fbErr').style.display='none';
-  if(!raw){ showMsg('fbErr','Paste config Firebase dulu.'); return; }
-  let cfg;
-  try { cfg = parseConfig(raw); } catch(e){ showMsg('fbErr','Config tidak valid: '+e.message, 6000); return; }
-  if(!cfg.apiKey || !cfg.projectId){ showMsg('fbErr','Config harus punya apiKey dan projectId.', 6000); return; }
-  try {
-    fbApp = initializeApp(cfg);
-    auth = getAuth(fbApp);
-    db = getFirestore(fbApp);
-  } catch(e){ showMsg('fbErr','Gagal inisialisasi: '+e.message, 6000); return; }
-  try { localStorage.setItem('ph_fbconfig', JSON.stringify(cfg)); } catch(_){}
-  $('connBadge').textContent = '⬤ Terhubung: ' + cfg.projectId;
-  $('connBadge').className = 'badge badge-on';
-  $('loginCard').style.opacity = '1';
-  $('loginCard').style.pointerEvents = 'auto';
-
-  onAuthStateChanged(auth, user => {
-    if(user){
-      $('gate').style.display='none';
-      $('app').style.display='block';
-      $('userBox').style.display='inline';
-      $('userBox').textContent = user.email;
-      $('logoutBtn').style.display='inline-block';
-      startListening();
-    } else {
-      $('gate').style.display='block';
-      $('app').style.display='none';
-      $('userBox').style.display='none';
-      $('logoutBtn').style.display='none';
-      if(unsub){ unsub(); unsub=null; }
-    }
-  });
-};
+onAuthStateChanged(auth, user => {
+  if(user){
+    $('gate').style.display='none';
+    $('app').style.display='block';
+    $('userBox').style.display='inline';
+    $('userBox').textContent = user.email;
+    $('logoutBtn').style.display='inline-block';
+    startListening();
+  } else {
+    $('gate').style.display='block';
+    $('app').style.display='none';
+    $('userBox').style.display='none';
+    $('logoutBtn').style.display='none';
+    if(unsub){ unsub(); unsub=null; }
+  }
+});
 
 window.doLogin = async function(){
   $('authErr').style.display='none';
@@ -425,24 +438,11 @@ window.doLogin = async function(){
   try {
     await signInWithEmailAndPassword(auth, $('authEmail').value.trim(), $('authPass').value);
   } catch(e){
-    const m = {'auth/invalid-credential':'Email atau password salah.','auth/user-not-found':'Akun tidak ditemukan.','auth/wrong-password':'Password salah.','auth/too-many-requests':'Terlalu banyak percobaan — tunggu sebentar.'};
+    const m = {'auth/invalid-credential':'Email atau password salah.','auth/user-not-found':'Akun tidak ditemukan.','auth/wrong-password':'Password salah.','auth/invalid-email':'Format email salah.','auth/too-many-requests':'Terlalu banyak percobaan — tunggu sebentar.'};
     showMsg('authErr', m[e.code] || ('Gagal masuk: '+e.message), 6000);
   }
   btn.disabled = false; btn.textContent = 'Masuk';
 };
-
-window.doRegister = async function(){
-  $('authErr').style.display='none';
-  const em = $('authEmail').value.trim(), pw = $('authPass').value;
-  if(!em || pw.length < 6){ showMsg('authErr','Isi email dan password minimal 6 karakter.', 5000); return; }
-  if(!confirm('Buat akun baru dengan email '+em+' ?')) return;
-  try { await createUserWithEmailAndPassword(auth, em, pw); }
-  catch(e){
-    const m = {'auth/email-already-in-use':'Email sudah terdaftar — langsung klik Masuk.','auth/operation-not-allowed':'Aktifkan dulu Email/Password di Firebase Console → Authentication.'};
-    showMsg('authErr', m[e.code] || ('Gagal daftar: '+e.message), 7000);
-  }
-};
-
 window.doLogout = function(){ if(auth) signOut(auth); };
 
 // ===================== REALTIME LISTEN =====================
@@ -454,101 +454,71 @@ function startListening(){
     renderAll();
     if(payDocId) refreshPayModal();
   }, err => {
-    alert('Gagal membaca database: '+err.message+'\n\nCek apakah Rules Firestore sudah di-publish (lihat panduan setup).');
+    alert('Gagal membaca database: '+err.message+'\n\nCek apakah Rules Firestore sudah di-publish.');
   });
 }
 
 // ===================== TABS =====================
 window.setTab = function(t){
   curTab = t;
+  if(t==='piutang' || t==='hutang') trxTab = t;
+  $('tbD').className = 'tab-btn' + (t==='dash' ? ' act-d':'');
   $('tbP').className = 'tab-btn' + (t==='piutang' ? ' act-p':'');
   $('tbH').className = 'tab-btn' + (t==='hutang' ? ' act-h':'');
-  $('tbR').className = 'tab-btn' + (t==='rekap' ? ' act-r':'');
-  $('tabTrx').style.display = t==='rekap' ? 'none':'block';
-  $('tabRekap').style.display = t==='rekap' ? 'block':'none';
-  const isP = t==='piutang';
-  $('formTitle').textContent = isP ? '➕ Tambah Piutang Manual' : '➕ Tambah Hutang Manual';
-  $('fPihakLbl').textContent = isP ? 'Nama pelanggan' : 'Nama supplier';
-  $('fPihak').placeholder = isP ? 'Nama toko / pembeli' : 'Nama supplier / pabrik';
-  $('listTitle').textContent = isP ? '📄 Daftar Piutang' : '📄 Daftar Hutang';
-  $('fSaveBtn').className = 'btn ' + (isP ? 'btn-p':'btn-h');
-  $('impHint').textContent = isP
-    ? 'Paste hasil copy dari tab Penjualan app nota. Baris dengan No.Nota sama otomatis digabung jadi satu piutang.'
-    : 'Paste hasil copy dari tab Barang Masuk app nota. Baris dengan No.Nota sama otomatis digabung jadi satu hutang.';
-  $('impPiutangOnlyWrap').style.display = isP ? 'flex':'none';
-  $('impPreview').innerHTML=''; importParsed=[];
+  $('tabDash').style.display = t==='dash' ? 'block':'none';
+  $('tabTrx').style.display = t==='dash' ? 'none':'block';
+  if(t !== 'dash'){
+    const isP = t==='piutang';
+    $('listTitle').textContent = isP ? '📄 Daftar Piutang' : '📄 Daftar Hutang';
+    $('btnNew').className = 'btn btn-sm ' + (isP ? 'btn-p':'btn-h');
+    $('impHint').textContent = isP
+      ? 'Paste hasil copy dari tab Penjualan app nota. Baris dengan No.Nota sama otomatis digabung jadi satu piutang, lengkap dengan rincian barangnya.'
+      : 'Paste hasil copy dari tab Barang Masuk app nota. Baris dengan No.Nota sama otomatis digabung jadi satu hutang, lengkap dengan rincian barangnya.';
+    $('impPiutangOnlyWrap').style.display = isP ? 'flex':'none';
+    $('impPreview').innerHTML=''; importParsed=[];
+  }
   renderAll();
 };
 
 // ===================== RENDER =====================
 function renderAll(){
   renderChips();
-  renderList();
-  renderRekap();
-  renderPihakList();
+  if(curTab==='dash') renderDash(); else renderList();
+  renderDatalists();
 }
 
-function trxOfTab(){ return allTrx.filter(t => t.jenis === curTab); }
+function trxOfTab(){ return allTrx.filter(t => t.jenis === trxTab); }
 
 function renderChips(){
   const box = $('chips');
-  if(curTab === 'rekap'){
-    const sp = allTrx.filter(t=>t.jenis==='piutang').reduce((s,t)=>s+Math.max(0,sisaOf(t)),0);
-    const sh = allTrx.filter(t=>t.jenis==='hutang').reduce((s,t)=>s+Math.max(0,sisaOf(t)),0);
+  const sp = allTrx.filter(t=>t.jenis==='piutang').reduce((s,t)=>s+Math.max(0,sisaOf(t)),0);
+  const sh = allTrx.filter(t=>t.jenis==='hutang').reduce((s,t)=>s+Math.max(0,sisaOf(t)),0);
+  if(curTab === 'dash'){
     box.innerHTML = `
       <div class="chip warn"><div class="lbl">Total piutang belum tertagih</div><div class="val">${IDR(sp)}</div></div>
       <div class="chip blue"><div class="lbl">Total hutang belum dibayar</div><div class="val">${IDR(sh)}</div></div>
-      <div class="chip ${sp-sh>=0?'green':''}"><div class="lbl">Selisih (piutang − hutang)</div><div class="val">${IDR(sp-sh)}</div></div>`;
+      <div class="chip ${sp-sh>=0?'green':'red'}"><div class="lbl">Selisih (piutang − hutang)</div><div class="val">${IDR(sp-sh)}</div></div>`;
     return;
   }
   const list = trxOfTab();
   const open = list.filter(t=>statusOf(t)!=='lunas');
   const totalSisa = open.reduce((s,t)=>s+sisaOf(t),0);
-  const cls = curTab==='piutang' ? 'warn':'blue';
+  const cls = trxTab==='piutang' ? 'warn':'blue';
   box.innerHTML = `
-    <div class="chip ${cls}"><div class="lbl">Total sisa ${curTab}</div><div class="val">${IDR(totalSisa)}</div></div>
+    <div class="chip ${cls}"><div class="lbl">Total sisa ${trxTab}</div><div class="val">${IDR(totalSisa)}</div></div>
     <div class="chip"><div class="lbl">Nota belum lunas</div><div class="val">${open.length}</div></div>
     <div class="chip green"><div class="lbl">Nota lunas</div><div class="val">${list.length - open.length}</div></div>`;
 }
 
-function renderPihakList(){
-  const names = [...new Set(allTrx.filter(t=>t.jenis===curTab).map(t=>t.pihak).filter(Boolean))].sort();
+function renderDatalists(){
+  const jenis = curTab==='dash' ? trxTab : curTab;
+  const names = [...new Set(allTrx.filter(t=>t.jenis===jenis).map(t=>t.pihak).filter(Boolean))].sort();
   $('pihakList').innerHTML = names.map(n=>`<option value="${esc(n)}">`).join('');
+  const prods = [...new Set(allTrx.flatMap(t=>(t.items||[]).map(i=>i.nama)).filter(Boolean))].sort();
+  $('prodList').innerHTML = prods.map(n=>`<option value="${esc(n)}">`).join('');
 }
 
-function renderList(){
-  if(curTab==='rekap') return;
-  const cari = $('fltCari').value.trim().toLowerCase();
-  const flt = $('fltStatus').value;
-  const tbody = $('listBody');
-  let list = trxOfTab();
-  if(cari) list = list.filter(t => (t.pihak||'').toLowerCase().includes(cari) || (t.noNota||'').toLowerCase().includes(cari));
-  if(flt==='open') list = list.filter(t=>statusOf(t)!=='lunas');
-  if(flt==='lunas') list = list.filter(t=>statusOf(t)==='lunas');
-  if(!list.length){ tbody.innerHTML = `<tr><td colspan="9" class="empty">Tidak ada data.</td></tr>`; return; }
-  tbody.innerHTML = list.map(t => {
-    const b = bayarTotal(t), s = sisaOf(t), st = statusOf(t);
-    const stHtml = st==='lunas' ? '<span class="st st-lunas">LUNAS</span>'
-                 : st==='sebagian' ? '<span class="st st-sebagian">SEBAGIAN</span>'
-                 : '<span class="st st-belum">BELUM</span>';
-    return `<tr>
-      <td>${isoToDisp(t.tanggal)}</td>
-      <td class="pihak-cell">${esc(t.pihak)}${t.kota?` <span class="kota">· ${esc(t.kota)}</span>`:''}</td>
-      <td>${esc(t.noNota||'-')}</td>
-      <td class="r">${IDR(t.jumlah||0)}</td>
-      <td class="r" style="color:#2d8a4e">${b>0?IDR(b):'-'}</td>
-      <td class="r sisa" style="color:${s>0.5?'#c0392b':'#2d8a4e'}">${IDR(Math.max(0,s))}</td>
-      <td>${stHtml}</td>
-      <td class="ket-td" title="${esc(t.ket||'')}">${esc(t.ket||'')}</td>
-      <td class="act-td">
-        <button class="icon-btn" onclick="openPay('${t.id}')" title="Catat pembayaran">💰 Bayar</button>
-        <button class="icon-btn danger" onclick="delTrx('${t.id}')" title="Hapus">✕</button>
-      </td>
-    </tr>`;
-  }).join('');
-}
-
-function renderRekap(){
+function renderDash(){
   const build = (jenis, elId) => {
     const map = {};
     allTrx.filter(t=>t.jenis===jenis && statusOf(t)!=='lunas').forEach(t=>{
@@ -563,33 +533,186 @@ function renderRekap(){
   };
   build('piutang','rekapP');
   build('hutang','rekapH');
+
+  // piutang paling lama
+  const oldest = allTrx.filter(t=>t.jenis==='piutang' && statusOf(t)!=='lunas')
+    .sort((a,b)=>String(a.tanggal).localeCompare(String(b.tanggal))).slice(0,8);
+  $('oldestP').innerHTML = oldest.length
+    ? oldest.map(t=>`<tr><td>${isoToDisp(t.tanggal)}</td><td class="pihak-cell">${esc(t.pihak)}</td><td class="r sisa" style="color:#c0392b">${IDR(sisaOf(t))}</td></tr>`).join('')
+    : `<tr><td colspan="3" class="empty">Tidak ada piutang tertunggak 🎉</td></tr>`;
+
+  // pembayaran terakhir
+  const pays = [];
+  allTrx.forEach(t => (t.pembayaran||[]).forEach(p => pays.push({...p, pihak:t.pihak, jenis:t.jenis})));
+  pays.sort((a,b)=>String(b.tanggal).localeCompare(String(a.tanggal)));
+  $('recentPay').innerHTML = pays.length
+    ? pays.slice(0,10).map(p=>`<div class="recent-row">
+        <span style="color:#888;width:76px;flex-shrink:0">${isoToDisp(p.tanggal)}</span>
+        <span class="tag ${p.jenis==='piutang'?'tag-p':'tag-h'}">${p.jenis==='piutang'?'MASUK':'KELUAR'}</span>
+        <span style="font-weight:600;flex:1">${esc(p.pihak)}</span>
+        <span style="font-weight:700">${IDR(p.jumlah)}</span>
+      </div>`).join('')
+    : `<div class="empty">Belum ada pembayaran tercatat.</div>`;
 }
 
-// ===================== SIMPAN MANUAL =====================
-window.saveManual = async function(){
-  $('fErr').style.display='none';
-  const d = parseInt($('fTgl').value)||0, m = parseInt($('fBln').value)||0, y = parseInt($('fThn').value)||0;
-  const pihak = $('fPihak').value.trim();
-  const jumlah = parseRp($('fJumlah').value);
-  if(!d || !m || !y){ showMsg('fErr','Tanggal belum lengkap.'); return; }
-  if(!pihak){ showMsg('fErr','Nama belum diisi.'); return; }
-  if(jumlah <= 0){ showMsg('fErr','Jumlah harus lebih dari 0.'); return; }
-  const dp = parseRp($('fDp').value);
-  const pembayaran = dp > 0 ? [{ tanggal: `${y}-${pad2(m)}-${pad2(d)}`, jumlah: dp, catatan: 'DP / uang muka' }] : [];
-  const btn = $('fSaveBtn'); btn.disabled = true;
+function renderList(){
+  const cari = $('fltCari').value.trim().toLowerCase();
+  const flt = $('fltStatus').value;
+  const tbody = $('listBody');
+  let list = trxOfTab();
+  if(cari) list = list.filter(t =>
+    (t.pihak||'').toLowerCase().includes(cari) ||
+    (t.noNota||'').toLowerCase().includes(cari) ||
+    itemNames(t).toLowerCase().includes(cari));
+  if(flt==='open') list = list.filter(t=>statusOf(t)!=='lunas');
+  if(flt==='lunas') list = list.filter(t=>statusOf(t)==='lunas');
+  if(!list.length){ tbody.innerHTML = `<tr><td colspan="9" class="empty">Tidak ada data.</td></tr>`; return; }
+  tbody.innerHTML = list.map(t => {
+    const b = bayarTotal(t), s = sisaOf(t), st = statusOf(t);
+    const stHtml = st==='lunas' ? '<span class="st st-lunas">LUNAS</span>'
+                 : st==='sebagian' ? '<span class="st st-sebagian">SEBAGIAN</span>'
+                 : '<span class="st st-belum">BELUM</span>';
+    const brg = itemNames(t);
+    return `<tr>
+      <td>${isoToDisp(t.tanggal)}</td>
+      <td class="pihak-cell">${esc(t.pihak)}${t.kota?` <span class="kota">· ${esc(t.kota)}</span>`:''}</td>
+      <td>${esc(t.noNota||'-')}</td>
+      <td class="brg-cell" title="${esc(brg)}">${esc(brg)||'<span style="color:#ccc">-</span>'}</td>
+      <td class="r">${IDR(t.jumlah||0)}</td>
+      <td class="r" style="color:#2d8a4e">${b>0?IDR(b):'-'}</td>
+      <td class="r sisa" style="color:${s>0.5?'#c0392b':'#2d8a4e'}">${IDR(Math.max(0,s))}</td>
+      <td>${stHtml}</td>
+      <td class="act-td">
+        <button class="icon-btn" onclick="openPay('${t.id}')" title="Catat pembayaran">💰 Bayar</button>
+        <button class="icon-btn" onclick="openEdit('${t.id}')" title="Ubah nota">✏️</button>
+        <button class="icon-btn danger" onclick="delTrx('${t.id}')" title="Hapus">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ===================== MODAL EDIT / TAMBAH =====================
+window.openEdit = function(id){
+  editDocId = id;
+  const jenis = curTab==='dash' ? trxTab : curTab;
+  const isP = jenis==='piutang';
+  $('eErr').style.display='none';
+  $('ePihakLbl').textContent = isP ? 'Nama pelanggan' : 'Nama supplier';
+  eItemRows = []; eItemCounter = 0;
+
+  if(id){
+    const t = allTrx.find(x=>x.id===id);
+    if(!t){ return; }
+    $('emTitle').textContent = '✏️ Ubah ' + (isP?'Piutang':'Hutang');
+    $('emSub').textContent = 'Perubahan langsung tersimpan ke database saat klik Simpan. Pembayaran yang sudah tercatat tidak ikut berubah.';
+    const p = String(t.tanggal||'').split('-');
+    $('eTgl').value = p[2]?parseInt(p[2]):''; $('eBln').value = p[1]?parseInt(p[1]):''; $('eThn').value = p[0]||'';
+    $('ePihak').value = t.pihak||''; $('eKota').value = t.kota||'';
+    $('eNota').value = t.noNota||''; $('eKet').value = t.ket||'';
+    (t.items||[]).forEach(it => eItemRows.push({id:++eItemCounter, nama:it.nama||'', qty:it.qty??'', sat:it.sat||'kg', harga:it.harga??''}));
+    $('eManual').value = eItemRows.length ? '' : Math.round(t.jumlah||0);
+  } else {
+    $('emTitle').textContent = '➕ Tambah ' + (isP?'Piutang':'Hutang') + ' Baru';
+    $('emSub').textContent = 'Isi rincian barang — total dihitung otomatis. Kalau tidak perlu rincian, kosongkan barang dan isi total manual.';
+    const now = new Date();
+    $('eTgl').value = now.getDate(); $('eBln').value = now.getMonth()+1; $('eThn').value = now.getFullYear();
+    $('ePihak').value=''; $('eKota').value=''; $('eNota').value=''; $('eKet').value='';
+    $('eManual').value='';
+  }
+  if(!eItemRows.length) eItemRows.push({id:++eItemCounter, nama:'', qty:'', sat:'kg', harga:''});
+  eRenderItems();
+  $('editModal').classList.add('show');
+  setTimeout(()=>$('ePihak').focus(), 100);
+};
+
+window.closeEdit = function(){ editDocId=null; $('editModal').classList.remove('show'); };
+
+function eRenderItems(){
+  const tb = $('eItems');
+  tb.innerHTML = eItemRows.map((r,i)=>`<tr>
+    <td style="color:#ccc;text-align:center;font-size:11px">${i+1}</td>
+    <td><input list="prodList" id="eiNama_${r.id}" value="${esc(r.nama)}" oninput="eOnItem(${i},'nama',this.value)" placeholder="Nama barang"></td>
+    <td><input class="n" inputmode="decimal" id="eiQty_${r.id}" value="${r.qty}" oninput="eOnItem(${i},'qty',this.value)" placeholder="0"></td>
+    <td><input id="eiSat_${r.id}" value="${esc(r.sat)}" oninput="eOnItem(${i},'sat',this.value)"></td>
+    <td><input class="n" inputmode="numeric" id="eiHrg_${r.id}" value="${r.harga}" oninput="eOnItem(${i},'harga',this.value)" placeholder="0"></td>
+    <td class="item-sub" id="eiSub_${r.id}">-</td>
+    <td><button class="icon-btn danger" onclick="eDelItem(${i})" style="margin:0">✕</button></td>
+  </tr>`).join('');
+  eItemRows.forEach((_,i)=>eUpdateSub(i));
+  eRecalc();
+}
+
+window.eOnItem = function(i, f, v){
+  if(!eItemRows[i]) return;
+  eItemRows[i][f] = v;
+  if(f==='qty'||f==='harga'){ eUpdateSub(i); eRecalc(); }
+};
+
+function eUpdateSub(i){
+  const r = eItemRows[i]; if(!r) return;
+  const sub = parseQty(r.qty) * parseRp(r.harga);
+  const el = $('eiSub_'+r.id);
+  if(el) el.textContent = sub>0 ? IDR(sub) : '-';
+}
+
+window.eAddItem = function(){
+  eItemRows.push({id:++eItemCounter, nama:'', qty:'', sat:'kg', harga:''});
+  eRenderItems();
+  setTimeout(()=>{ const el=$('eiNama_'+eItemRows[eItemRows.length-1].id); if(el) el.focus(); }, 50);
+};
+
+window.eDelItem = function(i){
+  eItemRows.splice(i,1);
+  eRenderItems();
+};
+
+function eItemsTotal(){
+  return eItemRows.reduce((s,r)=>s + parseQty(r.qty)*parseRp(r.harga), 0);
+}
+function eHasItems(){
+  return eItemRows.some(r => r.nama.trim() && parseQty(r.qty)>0 && parseRp(r.harga)>0);
+}
+
+window.eRecalc = function(){
+  const has = eHasItems();
+  $('eManualWrap').style.display = has ? 'none':'block';
+  $('eTotalMode').textContent = has ? 'Total otomatis dari rincian barang' : 'Tidak ada rincian barang — isi total manual:';
+  const total = has ? eItemsTotal() : parseRp($('eManual').value);
+  $('eTotal').textContent = IDR(total);
+};
+
+window.saveEdit = async function(){
+  $('eErr').style.display='none';
+  const d = parseInt($('eTgl').value)||0, m = parseInt($('eBln').value)||0, y = parseInt($('eThn').value)||0;
+  const pihak = $('ePihak').value.trim();
+  if(!d||!m||!y){ showMsg('eErr','Tanggal belum lengkap.'); return; }
+  if(!pihak){ showMsg('eErr','Nama belum diisi.'); return; }
+  const has = eHasItems();
+  const items = has ? eItemRows
+    .filter(r=>r.nama.trim())
+    .map(r=>({ nama:r.nama.trim(), qty:parseQty(r.qty), sat:(r.sat||'kg').trim(), harga:parseRp(r.harga) })) : [];
+  const jumlah = has ? Math.round(eItemsTotal()) : Math.round(parseRp($('eManual').value));
+  if(jumlah <= 0){ showMsg('eErr','Total masih 0 — isi rincian barang atau total manual.'); return; }
+
+  const jenis = curTab==='dash' ? trxTab : curTab;
+  const payload = {
+    jenis, pihak,
+    kota: $('eKota').value.trim(),
+    noNota: $('eNota').value.trim(),
+    tanggal: `${y}-${pad2(m)}-${pad2(d)}`,
+    ket: $('eKet').value.trim(),
+    items, jumlah
+  };
+  const btn = $('eSaveBtn'); btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Menyimpan...';
   try {
-    await addDoc(collection(db,'transaksi'), {
-      jenis: curTab, pihak,
-      kota: $('fKota').value.trim(),
-      noNota: $('fNota').value.trim(),
-      tanggal: `${y}-${pad2(m)}-${pad2(d)}`,
-      jumlah, ket: $('fKet').value.trim(),
-      pembayaran, createdAt: serverTimestamp()
-    });
-    $('fPihak').value=''; $('fKota').value=''; $('fNota').value=''; $('fJumlah').value=''; $('fKet').value=''; $('fDp').value='';
-    showMsg('fOk','✔ Tersimpan ke database.');
-  } catch(e){ showMsg('fErr','Gagal menyimpan: '+e.message, 6000); }
-  btn.disabled = false;
+    if(editDocId){
+      await updateDoc(doc(db,'transaksi', editDocId), payload);
+    } else {
+      await addDoc(collection(db,'transaksi'), { ...payload, pembayaran: [], createdAt: serverTimestamp() });
+    }
+    closeEdit();
+  } catch(e){ showMsg('eErr','Gagal menyimpan: '+e.message, 6000); }
+  btn.disabled = false; btn.textContent = '💾 Simpan';
 };
 
 // ===================== IMPORT TSV =====================
@@ -612,17 +735,19 @@ window.parseImport = function(){
   const isPenjualan = idx('pelanggan') >= 0;
   const isBM = idx('supplier') >= 0;
   if(!isPenjualan && !isBM){ showMsg('impErr','Baris judul tidak dikenali. Pastikan paste termasuk baris judul (Tanggal, Pelanggan/Supplier, ...).', 7000); return; }
-  if(curTab==='piutang' && !isPenjualan){ showMsg('impErr','Ini data Barang Masuk — buka tab Hutang untuk import data ini.', 7000); return; }
-  if(curTab==='hutang' && !isBM){ showMsg('impErr','Ini data Penjualan — buka tab Piutang untuk import data ini.', 7000); return; }
+  if(trxTab==='piutang' && !isPenjualan){ showMsg('impErr','Ini data Barang Masuk — buka tab Hutang untuk import data ini.', 7000); return; }
+  if(trxTab==='hutang' && !isBM){ showMsg('impErr','Ini data Penjualan — buka tab Piutang untuk import data ini.', 7000); return; }
 
   const iTgl = idx('tanggal'), iPihak = isPenjualan ? idx('pelanggan') : idx('supplier');
   const iKota = idx('kota'), iNota = idx('no.nota');
+  const iNama = idx('nama barang'), iQty = idx('qty'), iSat = idx('sat');
+  const iHarga = isPenjualan ? idx('harga') : idx('harga rp');
   const iSub = isPenjualan ? idx('subtotal') : idx('subtotal rp');
   const iStatus = idx('status');
   const iKet = idx('keterangan');
   if(iSub < 0){ showMsg('impErr','Kolom subtotal tidak ditemukan.', 6000); return; }
 
-  const onlyPiutang = curTab==='piutang' && $('impPiutangOnly').checked;
+  const onlyPiutang = trxTab==='piutang' && $('impPiutangOnly').checked;
   const groups = {};
   for(let i=1;i<lines.length;i++){
     const r = lines[i]; if(r.length < 3) continue;
@@ -631,17 +756,22 @@ window.parseImport = function(){
     if(!groups[key]) groups[key] = {
       tanggal: dispToIso(r[iTgl]), pihak: String(r[iPihak]||'').trim(),
       kota: String(r[iKota]||'').trim(), noNota: String(r[iNota]||'').trim(),
-      jumlah: 0, ket: '', items: 0
+      jumlah: 0, ket: '', items: []
     };
-    groups[key].jumlah += parseRp(r[iSub]);
-    groups[key].items++;
+    const g = groups[key];
+    g.jumlah += parseRp(r[iSub]);
+    g.items.push({
+      nama: iNama>=0 ? String(r[iNama]||'').trim() : '',
+      qty: iQty>=0 ? parseQty(r[iQty]) : 0,
+      sat: iSat>=0 ? String(r[iSat]||'kg').trim() : 'kg',
+      harga: iHarga>=0 ? parseRp(r[iHarga]) : 0
+    });
     const k = iKet>=0 ? String(r[iKet]||'').trim() : '';
-    if(k && !groups[key].ket.includes(k)) groups[key].ket = (groups[key].ket ? groups[key].ket+' | ':'') + k;
+    if(k && !g.ket.includes(k)) g.ket = (g.ket ? g.ket+' | ':'') + k;
   }
   importParsed = Object.values(groups).filter(g=>g.pihak && g.jumlah>0);
   if(!importParsed.length){ showMsg('impErr', onlyPiutang ? 'Tidak ada baris berstatus PIUTANG di data ini.' : 'Tidak ada baris valid.', 6000); return; }
 
-  // deteksi kemungkinan duplikat (pihak + noNota + jumlah sama sudah ada di DB)
   const existing = new Set(trxOfTab().map(t=>[t.pihak,t.noNota,Math.round(t.jumlah)].join('|').toLowerCase()));
   const html = importParsed.map((g,i)=>{
     const dup = existing.has([g.pihak,g.noNota,Math.round(g.jumlah)].join('|').toLowerCase());
@@ -650,14 +780,15 @@ window.parseImport = function(){
       <input type="checkbox" id="imp_${i}" ${dup?'':'checked'}>
       <span style="color:#888;width:76px">${isoToDisp(g.tanggal)}</span>
       <span class="who">${esc(g.pihak)}${g.kota?` <span style="font-weight:400;color:#aaa;font-size:11px">· ${esc(g.kota)}</span>`:''}</span>
-      <span style="color:#999;font-size:11px">${esc(g.noNota||'-')} · ${g.items} item</span>
+      <span style="color:#999;font-size:11px">${esc(g.noNota||'-')} · ${g.items.length} barang</span>
       ${dup?'<span class="dup-tag">mungkin sudah ada</span>':''}
       <span class="amt">${IDR(g.jumlah)}</span>
+      <div style="flex-basis:100%;font-size:11px;color:#aaa;padding-left:25px">${esc(g.items.map(x=>x.nama).filter(Boolean).join(', '))}</div>
     </div>`;
   }).join('');
   $('impPreview').innerHTML = html + `
     <div style="display:flex;gap:8px;margin-top:8px;align-items:center">
-      <button class="btn ${curTab==='piutang'?'btn-p':'btn-h'}" onclick="doImport()" id="impGoBtn">💾 Simpan ${importParsed.length} nota terpilih</button>
+      <button class="btn ${trxTab==='piutang'?'btn-p':'btn-h'}" onclick="doImport()" id="impGoBtn">💾 Simpan ${importParsed.length} nota terpilih</button>
       <span class="hint" style="margin:0">Hilangkan centang untuk nota yang tidak mau diimport.</span>
     </div>
     <div class="ok-msg" id="impOk"></div>`;
@@ -671,9 +802,10 @@ window.doImport = async function(){
       if(!$('imp_'+i)?.checked) continue;
       const g = importParsed[i];
       await addDoc(collection(db,'transaksi'), {
-        jenis: curTab, pihak: g.pihak, kota: g.kota, noNota: g.noNota,
+        jenis: trxTab, pihak: g.pihak, kota: g.kota, noNota: g.noNota,
         tanggal: g.tanggal || new Date().toISOString().slice(0,10),
-        jumlah: Math.round(g.jumlah), ket: g.ket, pembayaran: [], createdAt: serverTimestamp()
+        jumlah: Math.round(g.jumlah), ket: g.ket, items: g.items,
+        pembayaran: [], createdAt: serverTimestamp()
       });
       n++;
     }
@@ -701,7 +833,7 @@ function refreshPayModal(){
   const t = allTrx.find(x=>x.id===payDocId);
   if(!t){ closePay(); return; }
   $('pmTitle').textContent = (t.jenis==='piutang'?'💳 ':'📦 ') + t.pihak;
-  $('pmSub').textContent = [isoToDisp(t.tanggal), t.noNota, t.kota].filter(Boolean).join(' · ');
+  $('pmSub').textContent = [isoToDisp(t.tanggal), t.noNota, t.kota, itemNames(t)].filter(Boolean).join(' · ');
   const b = bayarTotal(t), s = Math.max(0, sisaOf(t));
   $('pmJumlah').textContent = IDR(t.jumlah||0);
   $('pmBayar').textContent = IDR(b);
@@ -751,7 +883,7 @@ window.delPayment = async function(i){
 };
 
 window.closePay = function(){ payDocId = null; $('payModal').classList.remove('show'); };
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') window.closePay(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ window.closePay(); } });
 
 window.delTrx = async function(id){
   const t = allTrx.find(x=>x.id===id); if(!t) return;
@@ -765,15 +897,15 @@ window.copyList = function(){
   const cari = $('fltCari').value.trim().toLowerCase();
   const flt = $('fltStatus').value;
   let list = trxOfTab();
-  if(cari) list = list.filter(t => (t.pihak||'').toLowerCase().includes(cari) || (t.noNota||'').toLowerCase().includes(cari));
+  if(cari) list = list.filter(t => (t.pihak||'').toLowerCase().includes(cari) || (t.noNota||'').toLowerCase().includes(cari) || itemNames(t).toLowerCase().includes(cari));
   if(flt==='open') list = list.filter(t=>statusOf(t)!=='lunas');
   if(flt==='lunas') list = list.filter(t=>statusOf(t)==='lunas');
   if(!list.length){ alert('Tidak ada data untuk dicopy.'); return; }
-  const who = curTab==='piutang' ? 'Pelanggan':'Supplier';
-  const header = ['Tanggal',who,'Kota','No.Nota','Jumlah','Dibayar','Sisa','Status','Keterangan'].join('\t');
+  const who = trxTab==='piutang' ? 'Pelanggan':'Supplier';
+  const header = ['Tanggal',who,'Kota','No.Nota','Barang','Jumlah','Dibayar','Sisa','Status','Keterangan'].join('\t');
   const lines = list.map(t=>{
     const b = bayarTotal(t), s = Math.max(0,sisaOf(t));
-    return [isoToDisp(t.tanggal), t.pihak, t.kota||'', t.noNota||'', Math.round(t.jumlah||0), Math.round(b), Math.round(s), statusOf(t).toUpperCase(), t.ket||''].join('\t');
+    return [isoToDisp(t.tanggal), t.pihak, t.kota||'', t.noNota||'', itemNames(t), Math.round(t.jumlah||0), Math.round(b), Math.round(s), statusOf(t).toUpperCase(), t.ket||''].join('\t');
   });
   const tsv = header + '\n' + lines.join('\n');
   navigator.clipboard.writeText(tsv).then(()=>showMsg('listOk','✔ Berhasil dicopy! Langsung paste (Ctrl+V) di Google Sheet.'))
@@ -787,16 +919,7 @@ window.copyList = function(){
 };
 
 // ===================== INIT =====================
-(function init(){
-  const now = new Date();
-  $('fTgl').value = now.getDate(); $('fBln').value = now.getMonth()+1; $('fThn').value = now.getFullYear();
-  let saved = null;
-  try { saved = localStorage.getItem('ph_fbconfig'); } catch(_){}
-  if(saved){
-    $('fbConfig').value = saved;
-    window.connectFirebase();
-  }
-})();
+setTab('dash');
 </script>
 
 </body>
